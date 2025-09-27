@@ -27,19 +27,22 @@ Follow these steps to get a local copy of the project running on your machine.
 
 You will need **Node.js** and **npm** (which comes with Node.js) installed.
 
-### 1. Download/Clone
-
-Use Git to clone the repository:
-
 ```bash
+
+
+### 1. Download/Clone
 git clone https://github.com/TheStormBreaks/fabrik-assignment-computational-physics.git
 cd fabrik-assignment-computational-physics
 
 
 ### 2. Install Dependencies
-
-Install all required packages by running:
-
-```bash
 npm install
+
+3. Run the Application
+npm start
+
+4. Run Tests
+npm test
+# or
+npx jest
 
