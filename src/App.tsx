@@ -3,6 +3,57 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { Physics, Debug, usePlane, useCompoundBody } from '@react-three/cannon';
 import * as THREE from 'three'
 
+
+//CREATING AN FPS COMPONENT
+type FPSDriverProps = {
+    onUpdate: (fps: number) => void;
+}
+const FPSDriver: React.FC<FPSDriverProps> = ({ onUpdate }) => {
+    const lastFrame = useRef(performance.now());
+    const frames = useRef<number[]>([]);
+    
+    useFrame(() => {
+        const now = performance.now();
+        const delta = now - lastFrame.current;
+        lastFrame.current = now;
+
+        const currentFps = 1000 / delta;
+        frames.current.push(currentFps);
+
+        //Keep only the last 60 frame measurements for a smooth average
+        if (frames.current.length > 60) {
+            frames.current.shift();
+        }
+
+        const avgFps = frames.current.reduce((a, b) => a + b, 0) / frames.current.length;
+
+        //Report the FPS
+        onUpdate(avgFps);
+    });
+
+    return null;
+}
+
+type FPSDisplayProps = {
+    fps: number;
+}
+
+const FPSDisplay: React.FC<FPSDisplayProps> = ({ fps }) => {
+    const indicatorColor = fps < 55 ? "bg-red-500" : "bg-gray-800";
+    
+    return (
+        <div
+            className={`absolute top-4 right-4 ${indicatorColor} text-white p-2 rounded-lg shadow-lg font-mono text-sm z-50 transition-colors duration-300 pointer-events-none`}
+        >
+            {fps.toFixed(1)} 
+        </div>
+    );
+}
+
+
+
+
+
 //plane 
 type PlaneProps = {
   rotation?: [number, number, number]
@@ -18,6 +69,7 @@ function Plane(props: PlaneProps) {
     </mesh>
   )
 }
+
 
 //physics body
 type PhysicsBodyProps = {
@@ -48,6 +100,7 @@ function PhysicsBody({ position, rotation }: PhysicsBodyProps) {
     </group>
   )
 }
+
 
 //grasvity on plane
 type GravityMeshProps = {
@@ -80,12 +133,15 @@ function GravityMesh({ position: initialPos, rotation, running }: GravityMeshPro
   )
 }
 
+
+
 //app
 export default function App() {
   const [selection, setSelection] = useState<boolean[]>([true, true, false]) 
   const [running, setRunning] = useState(false) 
   const [flag, setFlag] = useState(false) 
-  const [restartKey, setRestartKey] = useState(0) 
+  const [restartKey, setRestartKey] = useState(0) //setting the state for fps
+  const [currentFps, setCurrentFps] = useState(60); //state for fps
 
   //reset @ every restart
   useEffect(() => {
@@ -120,6 +176,7 @@ export default function App() {
           gap: '8px',
         }}
       >
+        <FPSDisplay fps={currentFps} />  
         {selection.map((enabled, i) => (
           <label key={i}>
             <input
@@ -152,6 +209,7 @@ export default function App() {
         gl={{ alpha: false }}
         camera={{ position: [-2, 1, 7], fov: 50 }}
       >
+        <FPSDriver onUpdate={setCurrentFps} />   //updating the fps when the sim runs
         <color attach="background" args={['#f6d186']} />
         <hemisphereLight intensity={1} />
         <spotLight
@@ -184,5 +242,6 @@ export default function App() {
         </Physics>
       </Canvas>
     </>
+//FPS CANNOT BE UNDER <DIV/> OR CANVAS HOOKS ERRORS
   )
 }
