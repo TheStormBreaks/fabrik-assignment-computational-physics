@@ -32,5 +32,14 @@ You will need **Node.js** and **npm** (which comes with Node.js) installed.
 Use Git to clone the repository:
 
 ```bash
-git clone [https://github.com/TheStormBreaks/fabrik-assignment-computational-physics.git](https://github.com/TheStormBreaks/fabrik-assignment-computational-physics.git)
+git clone https://github.com/TheStormBreaks/fabrik-assignment-computational-physics.git
 cd fabrik-assignment-computational-physics
+
+
+### 2. Install Dependencies
+
+Install all required packages by running:
+
+```bash
+npm install
+
