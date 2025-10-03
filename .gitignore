@@ -9995,3 +9995,10 @@ node_modules/.pnpm/@babel+helper-create-class-_54b913c0ee652bfe3c0dab00469a17eb/
 node_modules/.pnpm/@babel+helper-create-class-_54b913c0ee652bfe3c0dab00469a17eb/node_modules/@babel/traverse/lib/scope/index.js.map
 node_modules/.pnpm/@babel+helper-create-class-_54b913c0ee652bfe3c0dab00469a17eb/node_modules/@babel/traverse/lib/scope/lib/renamer.js
 node_modules/.pnpm/@babel+helper-create-class-_54b913c0ee652bfe3c0dab00469a17eb/node_modules/@babel/traverse/lib/scope/lib/renamer.js.map
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
